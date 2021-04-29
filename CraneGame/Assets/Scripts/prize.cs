@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class prize : MonoBehaviour
 {
-    PrizeInfo.Type currentPrizeType;
+    PrizeInfo.Type currentPrizeType; 
+    public player Player;   
+    //int FallPlayerFlg = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -40,24 +42,28 @@ public class prize : MonoBehaviour
         switch(currentPrizeType){
 
             case PrizeInfo.Type.RED:
-
                 GetComponent<SpriteRenderer>().color = new Color(1,0,0,1);
                 break;
 
             case PrizeInfo.Type.YELLOW:
-
                 GetComponent<SpriteRenderer>().color = new Color(1,0,0,1);
                 break;
 
             case PrizeInfo.Type.BLUE:
-
                 GetComponent<SpriteRenderer>().color = new Color(1,0,0,1);
                 break;
 
             default:
-
                 GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 break;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col){
+
+        if (col.gameObject.transform.parent.tag == "Player"){
+           
+            Player.TouchPrize();
         }
     }
 

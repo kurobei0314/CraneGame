@@ -13,7 +13,7 @@ public class player : MonoBehaviour
     }
 
     public PlayerState currentPlayerState;
-    int FallPlayerFlg=0; 
+    int FallPlayerFlg=1; 
 
     //　移動方向の設定
     int dir = 0;
@@ -39,17 +39,15 @@ public class player : MonoBehaviour
         dir = n;
     }
 
-    void OnCollisionEnter2D(Collision2D col){
+    
+    public void TouchPrize(){
 
-        Debug.Log(FallPlayerFlg);
+        FallPlayerFlg -= 1;
 
         if (FallPlayerFlg == 0){
-            Debug.Log("wa-iwa-i-wa-i");
             ChangecurrentPlayerState();
-            Debug.Log("currentPlayerState: ");
-            Debug.Log(currentPlayerState);
         }
-        FallPlayerFlg += 1;
+        
     }
 
     public void ChangecurrentPlayerState(){
