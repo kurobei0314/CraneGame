@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 {
     public player Player;
     public GameObject AMButton;
-
+    int FallButtonFlg = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +51,11 @@ public class GameController : MonoBehaviour
 
     public void FButtonTouch(){
 
-        Player.ChangecurrentPlayerState();
+        if(FallButtonFlg == 0){
+            Player.ChangecurrentPlayerState();
+        }
+
+        FallButtonFlg += 1;
     }
 
 }

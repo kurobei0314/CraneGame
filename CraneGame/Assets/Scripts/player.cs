@@ -13,6 +13,7 @@ public class player : MonoBehaviour
     }
 
     public PlayerState currentPlayerState;
+    int FallPlayerFlg=0; 
 
     //　移動方向の設定
     int dir = 0;
@@ -38,13 +39,24 @@ public class player : MonoBehaviour
         dir = n;
     }
 
+    void OnCollisionEnter2D(Collision2D col){
+
+        Debug.Log(FallPlayerFlg);
+
+        if (FallPlayerFlg == 0){
+            Debug.Log("wa-iwa-i-wa-i");
+            ChangecurrentPlayerState();
+            Debug.Log("currentPlayerState: ");
+            Debug.Log(currentPlayerState);
+        }
+        FallPlayerFlg += 1;
+    }
+
     public void ChangecurrentPlayerState(){
 
-        currentPlayerState = 1 - currentPlayerState;
-        
+        currentPlayerState = 1 - currentPlayerState; 
     }
     
-
     void Move(int dir){
 
         // 移動するとき
@@ -60,7 +72,6 @@ public class player : MonoBehaviour
         Vector3 pos = transform.position;
         pos.y -= GameInfo.FSPEED;
         transform.position = pos;
-
     }
     
 }
