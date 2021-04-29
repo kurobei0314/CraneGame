@@ -15,12 +15,12 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject RButton = AMButton.transform.Find("Right").gameObject;
-        GameObject LButton = AMButton.transform.Find("Left").gameObject;
+        //GameObject RButton = AMButton.transform.Find("Right").gameObject;
+        //GameObject LButton = AMButton.transform.Find("Left").gameObject;
     
         //ボタンの動作
-        RButton.GetComponent<Button>().onClick.AddListener(RButtonTouch);
-        LButton.GetComponent<Button>().onClick.AddListener(LButtonTouch);
+        //RButton.GetComponent<Button>().onClick.AddListener(RButtonTouch);
+        //LButton.GetComponent<Button>().onClick.AddListener(LButtonTouch);
     }
 
     // Update is called once per frame
@@ -34,14 +34,19 @@ public class GameController : MonoBehaviour
         GAMEOVER
     }
 
-    void RButtonTouch(){
+    public void RButtonTouch(){
 
-        Player.Move(1);
+        Player.SetDirection(1);
     }
 
-    void LButtonTouch(){
+    public void LButtonTouch(){
 
-        Player.Move(-1);
+        Player.SetDirection(-1);
+    }
+
+    public void UpButton(){
+
+        Player.SetDirection(0);
     }
 
 }

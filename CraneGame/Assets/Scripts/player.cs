@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
+    //　移動方向の設定
+    int dir = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,16 +19,20 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Move(dir);
     }
 
-    public void Move(int d){
+    public void SetDirection(int n){
+        dir = n;
+    }
 
+    public void Move(int dir){
 
-        Debug.Log("wwwwwwwwwwww");
-        Vector3 pos = transform.position;
-        pos.x += GameInfo.MSPEED * d;
-        transform.position = pos;
-
+        // 移動するとき
+        if(dir != 0){
+            Vector3 pos = transform.position;
+            pos.x += GameInfo.MSPEED * dir;
+            transform.position = pos;
+        }
     }
 }
