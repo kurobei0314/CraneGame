@@ -49,4 +49,9 @@ public class GameController : MonoBehaviour
         Player.SetDirection(0);
     }
 
+    public void FButtonTouch(){
+
+        Player.ChangecurrentPlayerState();
+    }
+
 }

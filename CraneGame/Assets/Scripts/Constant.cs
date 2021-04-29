@@ -10,4 +10,6 @@ public static class GameInfo{
 
     public static readonly float MSPEED = 0.2f;
 
+    public static readonly float FSPEED = 0.2f;
+
 }
