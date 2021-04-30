@@ -4,16 +4,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class player : MonoBehaviour
 {
     public enum  PlayerState{
         NORMAL,
-        FALL
+        FALL,
     }
 
     public PlayerState currentPlayerState;
-    int FallPlayerFlg=0; 
+    int FallPlayerFlg=1; 
 
     //　移動方向の設定
     int dir = 0;
@@ -21,6 +23,7 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = GameInfo.InitializePlayer;
         currentPlayerState = PlayerState.NORMAL; 
     }
 
@@ -28,28 +31,49 @@ public class player : MonoBehaviour
     void Update()
     {
         if (currentPlayerState == PlayerState.NORMAL){
-            Move(dir);
+            xMove(dir);
         }
+        
         else if (currentPlayerState == PlayerState.FALL){
-            Fall();
+            yMove(1);
         }
+        
     }
 
     public void SetDirection(int n){
         dir = n;
     }
 
-    void OnCollisionEnter2D(Collision2D col){
+    
+    public void TouchPrize(){
 
-        Debug.Log(FallPlayerFlg);
+        Debug.Log("wa-i");
+        FallPlayerFlg -= 1;
 
         if (FallPlayerFlg == 0){
-            Debug.Log("wa-iwa-i-wa-i");
-            ChangecurrentPlayerState();
-            Debug.Log("currentPlayerState: ");
-            Debug.Log(currentPlayerState);
+            StartCoroutine("yMoveAni");
         }
-        FallPlayerFlg += 1;
+    }
+
+    IEnumerator yMoveAni(){
+
+        ChangecurrentPlayerState();
+        //yield return new WaitForSeconds(5.0f);
+
+        Debug.Log("wa--------------i");
+
+        while(currentPlayerState == PlayerState.FALL){
+            yield return new WaitForSeconds(1.0f);
+        }
+        Debug.Log("wwwwwwwwwwwwwwww");
+        yield return new WaitForSeconds(1.0f);
+
+        while(true){
+            if(this.transform.position.y >= GameInfo.InitializePlayer.y) break;
+            yMove(-1);
+            yield return new WaitForSeconds(0.01f);
+        }
+
     }
 
     public void ChangecurrentPlayerState(){
@@ -57,7 +81,7 @@ public class player : MonoBehaviour
         currentPlayerState = 1 - currentPlayerState; 
     }
     
-    void Move(int dir){
+    void xMove(int dir){
 
         // 移動するとき
         if(dir != 0){
@@ -67,10 +91,10 @@ public class player : MonoBehaviour
         }
     }
 
-    void Fall(){
+    void yMove(int dir){
 
         Vector3 pos = transform.position;
-        pos.y -= GameInfo.FSPEED;
+        pos.y -= GameInfo.FSPEED * dir;
         transform.position = pos;
     }
     
