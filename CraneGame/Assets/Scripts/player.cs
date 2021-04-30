@@ -4,6 +4,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class player : MonoBehaviour
 {
@@ -67,10 +69,9 @@ public class player : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         while(true){
-            Debug.Log("wa------------------------------i");
             if(this.transform.position.y >= GameInfo.InitializePlayer.y) break;
             yMove(-1);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.01f);
         }
 
     }

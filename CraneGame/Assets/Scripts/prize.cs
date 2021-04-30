@@ -23,11 +23,13 @@ public class prize : MonoBehaviour
     void InitializePrizeType(){
 
         float random = Random.Range(0.0f,1.0f);
+        Debug.Log(random);
 
         if      (0.0f <= random && random < 0.4f){
             ChangePrizeType(PrizeInfo.Type.RED);
         }
         else if (0.4f <= random && random < 0.8f){
+            Debug.Log("wa---i");
             ChangePrizeType(PrizeInfo.Type.YELLOW);
         }
         else if (0.8f <= random && random <= 1.0f){
@@ -46,11 +48,11 @@ public class prize : MonoBehaviour
                 break;
 
             case PrizeInfo.Type.YELLOW:
-                GetComponent<SpriteRenderer>().color = new Color(1,0,0,1);
+                GetComponent<SpriteRenderer>().color = new Color(0,1,0,1);
                 break;
 
             case PrizeInfo.Type.BLUE:
-                GetComponent<SpriteRenderer>().color = new Color(1,0,0,1);
+                GetComponent<SpriteRenderer>().color = new Color(0,0,1,1);
                 break;
 
             default:
