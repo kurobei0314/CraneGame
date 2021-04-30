@@ -13,6 +13,9 @@ public static class GameInfo{
     // playerの上下に動くスピード
     public static readonly float FSPEED = 0.05f;
 
+    // playerの初期位置
+    public static readonly Vector3 InitializePlayer = new Vector3 (-3.64f,4.41f,0.0f);
+
 }
 
 public static class PrizeInfo{
