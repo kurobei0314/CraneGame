@@ -14,6 +14,7 @@ public class prize : MonoBehaviour
     void Start()
     {
         InitializePrizeType();
+        InitializePrizeSize();
     }
 
     // Update is called once per frame
@@ -25,7 +26,6 @@ public class prize : MonoBehaviour
     void InitializePrizeType(){
 
         float random = Random.Range(0.0f,1.0f);
-        Debug.Log(random);
 
         if      (0.0f <= random && random < 0.4f){
             ChangePrizeType(PrizeInfo.Type.RED);
@@ -36,6 +36,17 @@ public class prize : MonoBehaviour
         else if (0.8f <= random && random <= 1.0f){
             ChangePrizeType(PrizeInfo.Type.BLUE);
         }
+    }
+
+    void InitializePrizeSize(){
+
+        float x = Random.Range(0.6f,3.0f);
+        float y = Random.Range(0.6f,3.0f);
+
+        Vector3 size = transform.localScale;
+        size = new Vector3(size.x*x, size.y*y, size.y);
+        transform.localScale = size;
+
     }
 
     void ChangePrizeType(PrizeInfo.Type color){
