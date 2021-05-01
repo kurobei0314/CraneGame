@@ -40,8 +40,8 @@ public class prize : MonoBehaviour
 
     void InitializePrizeSize(){
 
-        float x = Random.Range(0.6f,3.0f);
-        float y = Random.Range(0.6f,3.0f);
+        float x = Random.Range(0.1f,2.0f);
+        float y = Random.Range(0.1f,2.0f);
 
         Vector3 size = transform.localScale;
         size = new Vector3(size.x*x, size.y*y, size.z);
@@ -78,7 +78,10 @@ public class prize : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col){
 
-        if (col.gameObject.transform.parent.tag == "Player"){
+        Debug.Log("wa-i");
+
+        if (col.gameObject.transform.parent.tag == "Player" || 
+            col.gameObject.transform.parent.tag == "arm"    ){ 
             
             Player.TouchPrize();
         }
