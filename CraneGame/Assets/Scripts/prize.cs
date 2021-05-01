@@ -6,6 +6,8 @@ public class prize : MonoBehaviour
 {
     PrizeInfo.Type currentPrizeType; 
     public player Player;   
+    [SerializeField] private Sprite[] PrizeSprite;
+
     //int FallPlayerFlg = 1;
 
     // Start is called before the first frame update
@@ -29,7 +31,6 @@ public class prize : MonoBehaviour
             ChangePrizeType(PrizeInfo.Type.RED);
         }
         else if (0.4f <= random && random < 0.8f){
-            Debug.Log("wa---i");
             ChangePrizeType(PrizeInfo.Type.YELLOW);
         }
         else if (0.8f <= random && random <= 1.0f){
@@ -44,15 +45,18 @@ public class prize : MonoBehaviour
         switch(currentPrizeType){
 
             case PrizeInfo.Type.RED:
-                GetComponent<SpriteRenderer>().color = new Color(1,0,0,1);
+                GetComponent<SpriteRenderer>().sprite = PrizeSprite[0];
+                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 break;
 
             case PrizeInfo.Type.YELLOW:
-                GetComponent<SpriteRenderer>().color = new Color(0,1,0,1);
+                GetComponent<SpriteRenderer>().sprite = PrizeSprite[1];
+                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 break;
 
             case PrizeInfo.Type.BLUE:
-                GetComponent<SpriteRenderer>().color = new Color(0,0,1,1);
+                GetComponent<SpriteRenderer>().sprite = PrizeSprite[2];
+                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 break;
 
             default:
