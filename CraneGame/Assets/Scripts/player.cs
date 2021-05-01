@@ -16,9 +16,8 @@ public class player : MonoBehaviour
     }
 
     public PlayerState currentPlayerState;
-    int FallPlayerFlg=1;
-    // UseKindArmは1オリジン 
-    int UseKindArm=1;
+    int FallPlayerFlg=1; 
+    int UseKindArm=0;
 
     //　移動方向の設定
     int dir = 0;
@@ -62,7 +61,8 @@ public class player : MonoBehaviour
         ChangecurrentPlayerState();
         //yield return new WaitForSeconds(5.0f);
 
-        GameObject Arm = transform.GetChild(UseKindArm).gameObject;
+        GameObject ArmG = transform.Find("arm").gameObject;
+        GameObject Arm = ArmG.transform.GetChild(UseKindArm).gameObject;
         GameObject RArm = Arm.transform.Find("Rarm").gameObject;
         GameObject LArm = Arm.transform.Find("Larm").gameObject;
 
