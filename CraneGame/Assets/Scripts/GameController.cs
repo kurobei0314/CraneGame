@@ -17,6 +17,18 @@ public class GameController : MonoBehaviour
     private float angularFrequency = 5f;
     static readonly float DeltaTime = 0.0333f;
 
+    public enum  GameState{
+        MAIN,
+        GAMEOVER
+    }
+    GameState currentGameState;
+
+    public enum  ButtonState{
+        ON,
+        OFF
+    }
+    ButtonState currentButtonState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,19 +36,39 @@ public class GameController : MonoBehaviour
         GameObject LButton = AMButton.transform.Find("Left").gameObject;
         GameObject FButton = AMButton.transform.Find("Fall").gameObject;
 
+        currentButtonState = ButtonState.OFF;
+
         float time = 0.0f;
 
         Observable.Interval(TimeSpan.FromSeconds(DeltaTime)).Subscribe(_ =>
         {
-            
-            time += angularFrequency * DeltaTime;
             var Rcolor = RButton.GetComponent<Image>().color; 
             var Lcolor = LButton.GetComponent<Image>().color;
             var Fcolor = FButton.GetComponent<Image>().color;
 
-            Rcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
-            Lcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
-            Fcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
+            if (currentButtonState == ButtonState.OFF){
+
+                time += angularFrequency * DeltaTime;
+               
+               
+                Rcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
+                Lcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
+                Fcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
+                
+                /*
+                RButton.GetComponent<Image>().color = Rcolor; 
+                LButton.GetComponent<Image>().color = Lcolor;
+                FButton.GetComponent<Image>().color = Fcolor;
+                */
+            }
+            else if (currentButtonState == ButtonState.ON){
+
+                time = 0.0f;
+                
+                Rcolor.a = 1.0f;
+                Lcolor.a = 1.0f;
+                Fcolor.a = 1.0f;
+            }
 
             RButton.GetComponent<Image>().color = Rcolor; 
             LButton.GetComponent<Image>().color = Lcolor;
@@ -55,33 +87,37 @@ public class GameController : MonoBehaviour
         
     }
 
-    public enum  GameState{
-        MAIN,
-        GAMEOVER
-    }
-
     public void RButtonTouch(){
 
         Player.SetDirection(1);
+        ChangeButtonState();
     }
 
     public void LButtonTouch(){
 
         Player.SetDirection(-1);
+        ChangeButtonState();
     }
 
     public void UpButton(){
 
         Player.SetDirection(0);
+        ChangeButtonState();
     }
 
     public void FButtonTouch(){
 
         if(FallButtonFlg == 0){
             Player.ChangecurrentPlayerState();
+            ChangeButtonState();
         }
-
         FallButtonFlg += 1;
     }
+
+    void ChangeButtonState(){
+        currentButtonState = 1 - currentButtonState;
+    }
+
+    
 
 }

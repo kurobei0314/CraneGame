@@ -41,6 +41,7 @@
      <Compile Include="Assets\Scripts\ScoreController.cs" />
      <Compile Include="Assets\Scripts\Constant.cs" />
      <Compile Include="Assets\Scripts\prize.cs" />
+     <Compile Include="Assets\Scripts\Button.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
