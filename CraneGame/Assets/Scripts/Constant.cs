@@ -16,6 +16,9 @@ public static class GameInfo{
     // playerの初期位置
     public static readonly Vector3 InitializePlayer = new Vector3 (-3.64f,4.41f,0.0f);
 
+    //　prizeの最初の数
+    public static readonly int INITIALPRIZENUM = 10;
+
 }
 
 public static class PrizeInfo{

@@ -12,7 +12,10 @@ public class GameController : MonoBehaviour
 {
     public player Player;
     public Button AMButton;
+    public GameObject Prize;
+    public GameObject[] Prizes;
     int FallButtonFlg = 0;
+    public GameObject prizePosition;
 
     public enum  GameState{
         MAIN,
@@ -23,7 +26,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
+        InitializePrize();
     }
 
     // Update is called once per frame
@@ -61,6 +65,20 @@ public class GameController : MonoBehaviour
             AMButton.TouchChangeButtonSprite("F");
         }
         FallButtonFlg += 1;
+    }
+
+    void InitializePrize(){
+
+        Prizes = new GameObject[GameInfo.INITIALPRIZENUM];
+        float y = prizePosition.transform.position.y;
+
+        for (int i=0;i<GameInfo.INITIALPRIZENUM;i++){
+            
+            float x = UnityEngine.Random.Range(-3.5f,3.5f);
+            Prizes[i] = Instantiate(Prize, new Vector3(x,y,0.0f),Quaternion.identity) as GameObject;
+        }
+
+
     }
 
 
