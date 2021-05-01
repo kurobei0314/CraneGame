@@ -697,6 +697,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UniRx.csproj">
+      <Project>{4095cb2f-deb0-fa91-f76f-efe774a9a00b}</Project>
+      <Name>UniRx</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
