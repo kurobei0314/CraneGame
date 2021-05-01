@@ -5,22 +5,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
+using System;
 
 public class GameController : MonoBehaviour
 {
     public player Player;
-    public GameObject AMButton;
+    public Button AMButton;
     int FallButtonFlg = 0;
+
+    public enum  GameState{
+        MAIN,
+        GAMEOVER
+    }
+    GameState currentGameState;
 
     // Start is called before the first frame update
     void Start()
     {
-        //GameObject RButton = AMButton.transform.Find("Right").gameObject;
-        //GameObject LButton = AMButton.transform.Find("Left").gameObject;
-    
-        //ボタンの動作
-        //RButton.GetComponent<Button>().onClick.AddListener(RButtonTouch);
-        //LButton.GetComponent<Button>().onClick.AddListener(LButtonTouch);
+       
     }
 
     // Update is called once per frame
@@ -29,33 +32,36 @@ public class GameController : MonoBehaviour
         
     }
 
-    public enum  GameState{
-        MAIN,
-        GAMEOVER
-    }
-
     public void RButtonTouch(){
 
         Player.SetDirection(1);
+        AMButton.ChangeButtonState();
+        AMButton.TouchChangeButtonSprite("R");
     }
 
     public void LButtonTouch(){
 
         Player.SetDirection(-1);
+        AMButton.ChangeButtonState();
+        AMButton.TouchChangeButtonSprite("L");
     }
 
     public void UpButton(){
 
         Player.SetDirection(0);
+        AMButton.ChangeButtonState();
+        AMButton.UpChangeButtonSprite();
     }
 
     public void FButtonTouch(){
 
         if(FallButtonFlg == 0){
             Player.ChangecurrentPlayerState();
+            AMButton.ChangeButtonState();
+            AMButton.TouchChangeButtonSprite("F");
         }
-
         FallButtonFlg += 1;
     }
+
 
 }
