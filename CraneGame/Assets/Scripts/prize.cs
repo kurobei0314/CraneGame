@@ -44,7 +44,7 @@ public class prize : MonoBehaviour
         float y = Random.Range(0.6f,3.0f);
 
         Vector3 size = transform.localScale;
-        size = new Vector3(size.x*x, size.y*y, size.y);
+        size = new Vector3(size.x*x, size.y*y, size.z);
         transform.localScale = size;
 
     }

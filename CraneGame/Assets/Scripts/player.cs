@@ -16,6 +16,7 @@ public class player : MonoBehaviour
 
     public PlayerState currentPlayerState;
     int FallPlayerFlg=1; 
+    int UseKindArm=0;
 
     //　移動方向の設定
     int dir = 0;
@@ -47,7 +48,6 @@ public class player : MonoBehaviour
     
     public void TouchPrize(){
 
-        Debug.Log("wa-i");
         FallPlayerFlg -= 1;
 
         if (FallPlayerFlg == 0){
@@ -59,8 +59,6 @@ public class player : MonoBehaviour
 
         ChangecurrentPlayerState();
         //yield return new WaitForSeconds(5.0f);
-
-        Debug.Log("wa--------------i");
 
         while(currentPlayerState == PlayerState.FALL){
             yield return new WaitForSeconds(1.0f);
@@ -97,5 +95,7 @@ public class player : MonoBehaviour
         pos.y -= GameInfo.FSPEED * dir;
         transform.position = pos;
     }
+
+    
     
 }
