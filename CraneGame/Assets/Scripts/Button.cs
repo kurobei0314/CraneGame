@@ -16,15 +16,21 @@ public class Button : MonoBehaviour
 
     ButtonState currentButtonState;
 
+    [SerializeField] private Sprite[] RButtonSprite;
+    [SerializeField] private Sprite[] LButtonSprite;
+    [SerializeField] private Sprite[] FButtonSprite;
+
     private float angularFrequency = 5f;
     static readonly float DeltaTime = 0.0333f;
+
+    GameObject RButton, LButton, FButton;
     
     // Start is called before the first frame update
     void Start()
     {
-        GameObject RButton = transform.Find("Right").gameObject;
-        GameObject LButton = transform.Find("Left").gameObject;
-        GameObject FButton = transform.Find("Fall").gameObject;
+        RButton = transform.Find("Right").gameObject;
+        LButton = transform.Find("Left").gameObject;
+        FButton = transform.Find("Fall").gameObject;
 
         currentButtonState = ButtonState.OFF;
 
@@ -63,6 +69,30 @@ public class Button : MonoBehaviour
 
     public void ChangeButtonState(){
         currentButtonState = 1 - currentButtonState;
+    }
+
+    public void TouchChangeButtonSprite(string kind){
+
+        switch(kind){
+            case "R":
+                RButton.GetComponent<Image>().sprite = RButtonSprite[1]; 
+                break;
+
+            case "L":
+                LButton.GetComponent<Image>().sprite = LButtonSprite[1]; 
+                break;
+
+            case "F":
+                FButton.GetComponent<Image>().sprite = FButtonSprite[1]; 
+                break;
+        }
+    }
+
+    public void UpChangeButtonSprite(){
+
+        RButton.GetComponent<Image>().sprite = RButtonSprite[0];
+        LButton.GetComponent<Image>().sprite = LButtonSprite[0];
+        FButton.GetComponent<Image>().sprite = FButtonSprite[0];
     }
 
     // Update is called once per frame
