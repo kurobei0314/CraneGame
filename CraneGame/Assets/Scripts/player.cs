@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 
 public class player : MonoBehaviour
@@ -15,8 +16,9 @@ public class player : MonoBehaviour
     }
 
     public PlayerState currentPlayerState;
-    int FallPlayerFlg=1; 
-    int UseKindArm=0;
+    int FallPlayerFlg=1;
+    // UseKindArmは1オリジン 
+    int UseKindArm=1;
 
     //　移動方向の設定
     int dir = 0;
@@ -60,10 +62,32 @@ public class player : MonoBehaviour
         ChangecurrentPlayerState();
         //yield return new WaitForSeconds(5.0f);
 
+        GameObject Arm = transform.GetChild(UseKindArm).gameObject;
+        GameObject RArm = Arm.transform.Find("Rarm").gameObject;
+        GameObject LArm = Arm.transform.Find("Larm").gameObject;
+
+        RectTransform RrectTran = RArm.GetComponent<RectTransform>();
+        RectTransform LrectTran = LArm.GetComponent<RectTransform>();
+
+        Vector3 RInitialAngle = RArm.transform.localEulerAngles;
+        Vector3 LInitialAngle = LArm.transform.localEulerAngles; 
+        
+        RrectTran.DORotate(
+            new Vector3(0.0f,0.0f,220.0f),
+            1.0f
+        );
+        
+        LrectTran.DORotate(
+            new Vector3(0.0f,0.0f,-40.0f),
+            1.0f
+        );
+
+        yield return new WaitForSeconds(1.0f);
+
         while(currentPlayerState == PlayerState.FALL){
             yield return new WaitForSeconds(1.0f);
         }
-        Debug.Log("wwwwwwwwwwwwwwww");
+       
         yield return new WaitForSeconds(1.0f);
 
         while(true){
@@ -71,6 +95,20 @@ public class player : MonoBehaviour
             yMove(-1);
             yield return new WaitForSeconds(0.01f);
         }
+
+        yield return new WaitForSeconds(1.0f);
+
+        RrectTran.DORotate(
+            new Vector3(0.0f,0.0f,RInitialAngle.z),
+            1.0f
+        );
+        
+        LrectTran.DORotate(
+            new Vector3(0.0f,0.0f,LInitialAngle.z),
+            1.0f
+        );
+
+        yield return new WaitForSeconds(1.0f);
 
     }
 
