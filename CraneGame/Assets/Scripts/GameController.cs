@@ -11,11 +11,11 @@ using System;
 public class GameController : MonoBehaviour
 {
     public player Player;
-    public GameObject AMButton;
+    public Button AMButton;
     int FallButtonFlg = 0;
 
-    private float angularFrequency = 5f;
-    static readonly float DeltaTime = 0.0333f;
+    // private float angularFrequency = 5f;
+    // static readonly float DeltaTime = 0.0333f;
 
     public enum  GameState{
         MAIN,
@@ -23,15 +23,18 @@ public class GameController : MonoBehaviour
     }
     GameState currentGameState;
 
+    /*
     public enum  ButtonState{
         ON,
         OFF
     }
-    ButtonState currentButtonState;
+    */
+    // ButtonState currentButtonState;
 
     // Start is called before the first frame update
     void Start()
     {
+        /*
         GameObject RButton = AMButton.transform.Find("Right").gameObject;
         GameObject LButton = AMButton.transform.Find("Left").gameObject;
         GameObject FButton = AMButton.transform.Find("Fall").gameObject;
@@ -55,11 +58,11 @@ public class GameController : MonoBehaviour
                 Lcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
                 Fcolor.a = Mathf.Sin(time) * 0.5f + 0.5f;
                 
-                /*
-                RButton.GetComponent<Image>().color = Rcolor; 
-                LButton.GetComponent<Image>().color = Lcolor;
-                FButton.GetComponent<Image>().color = Fcolor;
-                */
+                
+                // RButton.GetComponent<Image>().color = Rcolor; 
+                // LButton.GetComponent<Image>().color = Lcolor;
+                // FButton.GetComponent<Image>().color = Fcolor;
+                
             }
             else if (currentButtonState == ButtonState.ON){
 
@@ -75,6 +78,7 @@ public class GameController : MonoBehaviour
             FButton.GetComponent<Image>().color = Fcolor;
 
         }).AddTo(this);
+        */
 
         //ボタンの動作
         //RButton.GetComponent<Button>().onClick.AddListener(RButtonTouch);
@@ -90,34 +94,34 @@ public class GameController : MonoBehaviour
     public void RButtonTouch(){
 
         Player.SetDirection(1);
-        ChangeButtonState();
+        AMButton.ChangeButtonState();
     }
 
     public void LButtonTouch(){
 
         Player.SetDirection(-1);
-        ChangeButtonState();
+        AMButton.ChangeButtonState();
     }
 
     public void UpButton(){
 
         Player.SetDirection(0);
-        ChangeButtonState();
+        AMButton.ChangeButtonState();
     }
 
     public void FButtonTouch(){
 
         if(FallButtonFlg == 0){
             Player.ChangecurrentPlayerState();
-            ChangeButtonState();
+            AMButton.ChangeButtonState();
         }
         FallButtonFlg += 1;
     }
 
+    /*
     void ChangeButtonState(){
         currentButtonState = 1 - currentButtonState;
     }
-
-    
+    */
 
 }
