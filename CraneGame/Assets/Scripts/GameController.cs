@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
 
     public enum  GameState{
         MAIN,
+        FALL,
         GAMEOVER
     }
     GameState currentGameState;
@@ -38,33 +39,47 @@ public class GameController : MonoBehaviour
 
     public void RButtonTouch(){
 
-        Player.SetDirection(1);
-        AMButton.ChangeButtonState();
-        AMButton.TouchChangeButtonSprite("R");
+        if(currentGameState == GameState.MAIN){
+            Player.SetDirection(1);
+            AMButton.ChangeButtonState();
+            AMButton.TouchChangeButtonSprite("R");
+        }
     }
 
     public void LButtonTouch(){
 
-        Player.SetDirection(-1);
-        AMButton.ChangeButtonState();
-        AMButton.TouchChangeButtonSprite("L");
+        if(currentGameState == GameState.MAIN){
+            Player.SetDirection(-1);
+            AMButton.ChangeButtonState();
+            AMButton.TouchChangeButtonSprite("L");
+        }
     }
 
     public void UpButton(){
 
-        Player.SetDirection(0);
-        AMButton.ChangeButtonState();
-        AMButton.UpChangeButtonSprite();
+        if(currentGameState == GameState.MAIN){
+            Player.SetDirection(0);
+            AMButton.ChangeButtonState();
+            AMButton.UpChangeButtonSprite();
+        }
     }
 
     public void FButtonTouch(){
 
-        if(FallButtonFlg == 0){
-            Player.ChangecurrentPlayerState();
-            AMButton.ChangeButtonState();
-            AMButton.TouchChangeButtonSprite("F");
+        if(currentGameState == GameState.MAIN){
+            if(FallButtonFlg == 0){
+                Player.ChangecurrentPlayerState();
+                AMButton.ChangeButtonState();
+                AMButton.TouchChangeButtonSprite("F");
+                ChangecurrentGameState(GameState.FALL);
+            }
+            FallButtonFlg += 1;
         }
-        FallButtonFlg += 1;
+    }
+
+    void ChangecurrentGameState(GameState state){
+
+        currentGameState = state;
     }
 
     void InitializePrize(){

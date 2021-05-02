@@ -19,6 +19,9 @@ public static class GameInfo{
     //　prizeの最初の数
     public static readonly int INITIALPRIZENUM = 10;
 
+    // ループ回数
+    public static readonly int LOOPNUM = 3;
+
 }
 
 public static class PrizeInfo{
