@@ -1,40 +1,40 @@
 // ゲームの機械の動き
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 
 public class player : MonoBehaviour
 {
-    public enum  PlayerState{
-        NORMAL,
-        FALL,
-    }
-
-    public PlayerState currentPlayerState;
+    public PlayerState.Type currentPlayerState;
     int FallPlayerFlg=1; 
+    int UseKindArm=1;
 
     //　移動方向の設定
     int dir = 0;
+
+    public GameController GameControll;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position = GameInfo.InitializePlayer;
-        currentPlayerState = PlayerState.NORMAL; 
+        currentPlayerState = PlayerState.Type.NORMAL; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentPlayerState == PlayerState.NORMAL){
+        //Debug.Log(currentPlayerState);
+        //Debug.Log(FallPlayerFlg);
+
+        if (currentPlayerState == PlayerState.Type.NORMAL){
             xMove(dir);
         }
         
-        else if (currentPlayerState == PlayerState.FALL){
+        else if (currentPlayerState == PlayerState.Type.FALL){
             yMove(1);
         }
         
@@ -47,25 +47,50 @@ public class player : MonoBehaviour
     
     public void TouchPrize(){
 
-        Debug.Log("wa-i");
-        FallPlayerFlg -= 1;
+        if(currentPlayerState == PlayerState.Type.FALL){
 
-        if (FallPlayerFlg == 0){
-            StartCoroutine("yMoveAni");
+            FallPlayerFlg -= 1;
+            if (FallPlayerFlg == 0){
+                StartCoroutine("yMoveAni");
+            }
         }
+        else return;
     }
 
     IEnumerator yMoveAni(){
 
-        ChangecurrentPlayerState();
+        ChangecurrentPlayerState(PlayerState.Type.ANIMATION);
+        Debug.Log("in yMoveAni");
+        Debug.Log(currentPlayerState);
         //yield return new WaitForSeconds(5.0f);
 
-        Debug.Log("wa--------------i");
+        GameObject ArmG = transform.Find("arm").gameObject;
+        GameObject Arm = ArmG.transform.GetChild(UseKindArm).gameObject;
+        GameObject RArm = Arm.transform.Find("Rarm").gameObject;
+        GameObject LArm = Arm.transform.Find("Larm").gameObject;
 
-        while(currentPlayerState == PlayerState.FALL){
+        RectTransform RrectTran = RArm.GetComponent<RectTransform>();
+        RectTransform LrectTran = LArm.GetComponent<RectTransform>();
+
+        Vector3 RInitialAngle = RArm.transform.localEulerAngles;
+        Vector3 LInitialAngle = LArm.transform.localEulerAngles; 
+        
+        RrectTran.DORotate(
+            new Vector3(0.0f,0.0f,220.0f),
+            1.0f
+        );
+        
+        LrectTran.DORotate(
+            new Vector3(0.0f,0.0f,-40.0f),
+            1.0f
+        );
+
+        yield return new WaitForSeconds(1.0f);
+
+        while(currentPlayerState == PlayerState.Type.FALL){
             yield return new WaitForSeconds(1.0f);
         }
-        Debug.Log("wwwwwwwwwwwwwwww");
+       
         yield return new WaitForSeconds(1.0f);
 
         while(true){
@@ -74,13 +99,43 @@ public class player : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
+        yield return new WaitForSeconds(1.0f);
+
+        GameControll.JudgePrize();
+
+        RrectTran.DORotate(
+            new Vector3(0.0f,0.0f,RInitialAngle.z),
+            1.0f
+        );
+        
+        LrectTran.DORotate(
+            new Vector3(0.0f,0.0f,LInitialAngle.z),
+            1.0f
+        );
+
+        yield return new WaitForSeconds(1.0f);
+
+        FallPlayerFlg = 1;
+        ChangecurrentPlayerState(PlayerState.Type.NORMAL);
+        Debug.Log(currentPlayerState);
     }
 
-    public void ChangecurrentPlayerState(){
+    public void ChangecurrentPlayerState(PlayerState.Type state){
 
-        currentPlayerState = 1 - currentPlayerState; 
+        currentPlayerState = state; 
     }
     
+    public bool GetNormalState(){
+
+        if(currentPlayerState == PlayerState.Type.NORMAL){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+
     void xMove(int dir){
 
         // 移動するとき
@@ -97,5 +152,7 @@ public class player : MonoBehaviour
         pos.y -= GameInfo.FSPEED * dir;
         transform.position = pos;
     }
+
+    
     
 }

@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class prize : MonoBehaviour
 {
-    PrizeInfo.Type currentPrizeType; 
+    PrizeInfo.Type PrizeType; 
     public player Player;   
+    [SerializeField] private Sprite[] PrizeSprite;
+
     //int FallPlayerFlg = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         InitializePrizeType();
+        InitializePrizeSize();
     }
 
     // Update is called once per frame
@@ -23,13 +26,11 @@ public class prize : MonoBehaviour
     void InitializePrizeType(){
 
         float random = Random.Range(0.0f,1.0f);
-        Debug.Log(random);
 
         if      (0.0f <= random && random < 0.4f){
             ChangePrizeType(PrizeInfo.Type.RED);
         }
         else if (0.4f <= random && random < 0.8f){
-            Debug.Log("wa---i");
             ChangePrizeType(PrizeInfo.Type.YELLOW);
         }
         else if (0.8f <= random && random <= 1.0f){
@@ -37,22 +38,41 @@ public class prize : MonoBehaviour
         }
     }
 
+    void InitializePrizeSize(){
+
+        float x = Random.Range(0.1f,2.0f);
+        float y = Random.Range(0.1f,2.0f);
+
+        Vector3 size = transform.localScale;
+        size = new Vector3(size.x*x, size.y*y, size.z);
+        transform.localScale = size;
+
+    }
+
+    public PrizeInfo.Type GetPrizeType(){
+
+        return PrizeType;
+    }
+
     void ChangePrizeType(PrizeInfo.Type color){
 
-        currentPrizeType = color;
-
-        switch(currentPrizeType){
+        PrizeType = color;
+        
+        switch(PrizeType){
 
             case PrizeInfo.Type.RED:
-                GetComponent<SpriteRenderer>().color = new Color(1,0,0,1);
+                GetComponent<SpriteRenderer>().sprite = PrizeSprite[0];
+                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 break;
 
             case PrizeInfo.Type.YELLOW:
-                GetComponent<SpriteRenderer>().color = new Color(0,1,0,1);
+                GetComponent<SpriteRenderer>().sprite = PrizeSprite[1];
+                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 break;
 
             case PrizeInfo.Type.BLUE:
-                GetComponent<SpriteRenderer>().color = new Color(0,0,1,1);
+                GetComponent<SpriteRenderer>().sprite = PrizeSprite[2];
+                GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 break;
 
             default:
@@ -63,8 +83,9 @@ public class prize : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col){
 
-        if (col.gameObject.transform.parent.tag == "Player"){
-            
+        if (col.gameObject.transform.parent.tag == "Player" || 
+            col.gameObject.transform.parent.tag == "arm"    ){ 
+
             Player.TouchPrize();
         }
     }

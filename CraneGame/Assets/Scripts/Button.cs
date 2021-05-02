@@ -7,8 +7,6 @@ using System;
 
 public class Button : MonoBehaviour
 {
-
-
     public enum  ButtonState{
         ON,
         OFF
