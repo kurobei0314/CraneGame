@@ -8,12 +8,14 @@ using DG.Tweening;
 
 public class player : MonoBehaviour
 {
-    public static PlayerState.Type currentPlayerState;
+    public PlayerState.Type currentPlayerState;
     int FallPlayerFlg=1; 
-    int UseKindArm=0;
+    int UseKindArm=1;
 
     //　移動方向の設定
     int dir = 0;
+
+    public GameController GameControll;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +100,8 @@ public class player : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.0f);
+
+        GameControll.JudgePrize();
 
         RrectTran.DORotate(
             new Vector3(0.0f,0.0f,RInitialAngle.z),

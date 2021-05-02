@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class prize : MonoBehaviour
 {
-    PrizeInfo.Type currentPrizeType; 
+    PrizeInfo.Type PrizeType; 
     public player Player;   
     [SerializeField] private Sprite[] PrizeSprite;
 
@@ -49,11 +49,16 @@ public class prize : MonoBehaviour
 
     }
 
+    public PrizeInfo.Type GetPrizeType(){
+
+        return PrizeType;
+    }
+
     void ChangePrizeType(PrizeInfo.Type color){
 
-        currentPrizeType = color;
-
-        switch(currentPrizeType){
+        PrizeType = color;
+        
+        switch(PrizeType){
 
             case PrizeInfo.Type.RED:
                 GetComponent<SpriteRenderer>().sprite = PrizeSprite[0];

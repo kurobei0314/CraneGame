@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public GameObject[] Prizes;
     int FallButtonFlg = 0;
     public GameObject prizePosition;
+    public GameObject prizeGetPosition;
 
     public enum  GameState{
         MAIN,
@@ -37,7 +38,8 @@ public class GameController : MonoBehaviour
     {
         if(currentGameState == GameState.FALL){
         
-            if(Player.GetNormalState()){ 
+            if(Player.GetNormalState()){
+
                 if(currentLoopNum == GameInfo.LOOPNUM){
                     ChangecurrentGameState(GameState.GAMEOVER);
                 }
@@ -110,15 +112,35 @@ public class GameController : MonoBehaviour
 
     void InitializePrize(){
 
-        Prizes = new GameObject[GameInfo.INITIALPRIZENUM];
+        Prizes = new GameObject[GameInfo.PRIZENUM];
         float y = prizePosition.transform.position.y;
 
-        for (int i=0;i<GameInfo.INITIALPRIZENUM;i++){
+        for (int i=0;i<GameInfo.PRIZENUM;i++){
             
             float x = UnityEngine.Random.Range(-3.5f,3.5f);
             Prizes[i] = Instantiate(Prize, new Vector3(x,y,0.0f),Quaternion.identity) as GameObject;
         }
     }
 
+    public void JudgePrize(){
 
+        Debug.Log("wa-i");
+
+        for (int i = 0; i < GameInfo.PRIZENUM; i++){
+
+            float hPosition = Prizes[i].transform.position.y;
+            float GetPositionY = prizeGetPosition.transform.position.y;
+
+            if( GetPositionY < hPosition ){
+
+                Prizes[i].SetActive(false);
+                JudgePoint(Prizes[i].GetComponent<prize>().GetPrizeType());
+            }
+        }
+    }
+
+    public void JudgePoint(PrizeInfo.Type color){
+
+        return;
+    }
 }

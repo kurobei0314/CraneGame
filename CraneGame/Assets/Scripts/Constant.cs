@@ -17,7 +17,7 @@ public static class GameInfo{
     public static readonly Vector3 InitializePlayer = new Vector3 (-3.64f,4.41f,0.0f);
 
     //　prizeの最初の数
-    public static readonly int INITIALPRIZENUM = 10;
+    public static readonly int PRIZENUM = 10;
 
     // ループ回数
     public static readonly int LOOPNUM = 3;
