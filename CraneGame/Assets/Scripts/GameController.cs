@@ -21,6 +21,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private Text GameTimerText;
     private float GameTimes = GameInfo.TIME;
 
+    public Text scoreText;
+
     public GameObject Canvas;
     GameObject MainCanvas,ResultCanvas;
     public GameObject Rcranegame;
@@ -57,6 +59,10 @@ public class GameController : MonoBehaviour
         MainCanvas.SetActive(true);
         ResultCanvas.SetActive(false);
 
+        for (int i=0; i < GameInfo.PRIZENUM; i++){
+                Prizes[i].SetActive(true);
+        }
+
         Observable.Interval(TimeSpan.FromSeconds(0.4f)).Subscribe(_ =>
         {
             if(currentGameState == GameState.GAMEOVER){
@@ -85,6 +91,7 @@ public class GameController : MonoBehaviour
                     player.SetActive(false);
                     MainCanvas.SetActive(false);
                     ResultCanvas.SetActive(true);
+                    scoreText.text = ScoreManager.instance.score + "てん";
 
                     for (int i=0; i < GameInfo.PRIZENUM; i++){
                         Prizes[i].SetActive(false);

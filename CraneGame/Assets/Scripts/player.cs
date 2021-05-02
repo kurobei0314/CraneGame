@@ -60,8 +60,8 @@ public class player : MonoBehaviour
     IEnumerator yMoveAni(){
 
         ChangecurrentPlayerState(PlayerState.Type.ANIMATION);
-        Debug.Log("in yMoveAni");
-        Debug.Log(currentPlayerState);
+        //Debug.Log("in yMoveAni");
+        //Debug.Log(currentPlayerState);
         //yield return new WaitForSeconds(5.0f);
 
         GameObject ArmG = transform.Find("arm").gameObject;
@@ -152,7 +152,4 @@ public class player : MonoBehaviour
         pos.y -= GameInfo.FSPEED * dir;
         transform.position = pos;
     }
-
-    
-    
 }
