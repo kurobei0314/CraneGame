@@ -66,6 +66,7 @@ public class GameController : MonoBehaviour
                 }
                 currentLoopNum += 1;
                 FallButtonFlg = 0;
+                GameTimes = GameInfo.TIME;
             }
         }
     }
@@ -74,6 +75,8 @@ public class GameController : MonoBehaviour
 
         GameTimes = TimeCounter(GameTimes);
         GameTimerText.text = ((int)GameTimes).ToString();
+
+        if((int)GameTimes <= 0) FallAction();
     }
 
     float TimeCounter(float time){
@@ -110,6 +113,10 @@ public class GameController : MonoBehaviour
     }
 
     public void FButtonTouch(){
+        FallAction();
+    }
+
+    void FallAction(){
 
         if(currentGameState == GameState.MAIN){
             if(FallButtonFlg == 0){
