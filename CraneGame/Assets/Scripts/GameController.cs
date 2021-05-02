@@ -43,6 +43,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         currentLoopNum = 0;
+        ScoreManager.instance.score = 0;
         InitializePrize();
     }
 
@@ -124,19 +125,6 @@ public class GameController : MonoBehaviour
                 AMButton.ChangeButtonState();
                 AMButton.TouchChangeButtonSprite("F");
                 ChangecurrentGameState(GameState.FALL);
-                /*
-                while(true){
-                    if(player.GetNormalState()){
-                        FallButtonFlg = 0;
-                        if(currentLoopNum == GameInfo.LOOPNUM){
-                            ChangecurrentGameState(GameState.GAMEOVER);
-                        }
-                        currentLoopNum += 1;
-                        break;
-                    }
-
-                }
-                */
             }
             FallButtonFlg += 1;
         }
@@ -169,13 +157,9 @@ public class GameController : MonoBehaviour
             if( GetPositionY < hPosition ){
 
                 Prizes[i].SetActive(false);
-                JudgePoint(Prizes[i].GetComponent<prize>().GetPrizeType());
+                int PrizeScore = Prizes[i].GetComponent<prize>().GetPrizeScore();
+                ScoreManager.instance.score += PrizeScore + (int)(GameTimes);  
             }
         }
-    }
-
-    public void JudgePoint(PrizeInfo.Type color){
-
-        return;
     }
 }
