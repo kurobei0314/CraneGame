@@ -78,11 +78,9 @@ public class prize : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col){
 
-        Debug.Log("wa-i");
-
         if (col.gameObject.transform.parent.tag == "Player" || 
             col.gameObject.transform.parent.tag == "arm"    ){ 
-            
+
             Player.TouchPrize();
         }
     }

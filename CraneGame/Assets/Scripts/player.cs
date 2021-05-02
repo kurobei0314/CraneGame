@@ -1,6 +1,4 @@
 // ゲームの機械の動き
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +8,7 @@ using DG.Tweening;
 
 public class player : MonoBehaviour
 {
-    public enum  PlayerState{
-        NORMAL,
-        FALL,
-    }
-
-    public PlayerState currentPlayerState;
+    public static PlayerState.Type currentPlayerState;
     int FallPlayerFlg=1; 
     int UseKindArm=0;
 
@@ -26,17 +19,20 @@ public class player : MonoBehaviour
     void Start()
     {
         transform.position = GameInfo.InitializePlayer;
-        currentPlayerState = PlayerState.NORMAL; 
+        currentPlayerState = PlayerState.Type.NORMAL; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentPlayerState == PlayerState.NORMAL){
+        //Debug.Log(currentPlayerState);
+        //Debug.Log(FallPlayerFlg);
+
+        if (currentPlayerState == PlayerState.Type.NORMAL){
             xMove(dir);
         }
         
-        else if (currentPlayerState == PlayerState.FALL){
+        else if (currentPlayerState == PlayerState.Type.FALL){
             yMove(1);
         }
         
@@ -49,16 +45,21 @@ public class player : MonoBehaviour
     
     public void TouchPrize(){
 
-        FallPlayerFlg -= 1;
+        if(currentPlayerState == PlayerState.Type.FALL){
 
-        if (FallPlayerFlg == 0){
-            StartCoroutine("yMoveAni");
+            FallPlayerFlg -= 1;
+            if (FallPlayerFlg == 0){
+                StartCoroutine("yMoveAni");
+            }
         }
+        else return;
     }
 
     IEnumerator yMoveAni(){
 
-        ChangecurrentPlayerState();
+        ChangecurrentPlayerState(PlayerState.Type.ANIMATION);
+        Debug.Log("in yMoveAni");
+        Debug.Log(currentPlayerState);
         //yield return new WaitForSeconds(5.0f);
 
         GameObject ArmG = transform.Find("arm").gameObject;
@@ -84,7 +85,7 @@ public class player : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        while(currentPlayerState == PlayerState.FALL){
+        while(currentPlayerState == PlayerState.Type.FALL){
             yield return new WaitForSeconds(1.0f);
         }
        
@@ -110,13 +111,27 @@ public class player : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
+        FallPlayerFlg = 1;
+        ChangecurrentPlayerState(PlayerState.Type.NORMAL);
+        Debug.Log(currentPlayerState);
     }
 
-    public void ChangecurrentPlayerState(){
+    public void ChangecurrentPlayerState(PlayerState.Type state){
 
-        currentPlayerState = 1 - currentPlayerState; 
+        currentPlayerState = state; 
     }
     
+    public bool GetNormalState(){
+
+        if(currentPlayerState == PlayerState.Type.NORMAL){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+
     void xMove(int dir){
 
         // 移動するとき

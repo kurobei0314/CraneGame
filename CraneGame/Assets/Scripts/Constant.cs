@@ -30,6 +30,11 @@ public static class PrizeInfo{
         YELLOW,
         BLUE
     }
-
-
+}
+public static class PlayerState{
+    public enum Type{
+        NORMAL,
+        FALL,
+        ANIMATION
+    }
 }
