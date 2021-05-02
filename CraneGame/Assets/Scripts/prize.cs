@@ -7,6 +7,7 @@ public class prize : MonoBehaviour
     PrizeInfo.Type PrizeType; 
     public player Player;   
     [SerializeField] private Sprite[] PrizeSprite;
+    int score = 0;
 
     //int FallPlayerFlg = 1;
 
@@ -54,6 +55,10 @@ public class prize : MonoBehaviour
         return PrizeType;
     }
 
+    public int GetPrizeScore(){
+        return score;
+    }
+
     void ChangePrizeType(PrizeInfo.Type color){
 
         PrizeType = color;
@@ -63,16 +68,19 @@ public class prize : MonoBehaviour
             case PrizeInfo.Type.RED:
                 GetComponent<SpriteRenderer>().sprite = PrizeSprite[0];
                 GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                score = 10;
                 break;
 
             case PrizeInfo.Type.YELLOW:
                 GetComponent<SpriteRenderer>().sprite = PrizeSprite[1];
                 GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                score = 20;
                 break;
 
             case PrizeInfo.Type.BLUE:
                 GetComponent<SpriteRenderer>().sprite = PrizeSprite[2];
                 GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                score = 30;
                 break;
 
             default:
@@ -89,8 +97,4 @@ public class prize : MonoBehaviour
             Player.TouchPrize();
         }
     }
-
-    
-
-
 }

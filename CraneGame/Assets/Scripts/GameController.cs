@@ -11,12 +11,23 @@ using System;
 public class GameController : MonoBehaviour
 {
     public player Player;
+    public GameObject player;
     public Button AMButton;
     public GameObject Prize;
     public GameObject[] Prizes;
     int FallButtonFlg = 0;
     public GameObject prizePosition;
     public GameObject prizeGetPosition;
+    [SerializeField] private Text GameTimerText;
+    private float GameTimes = GameInfo.TIME;
+
+    public Text scoreText;
+
+    public GameObject Canvas;
+    GameObject MainCanvas,ResultCanvas;
+    public GameObject Rcranegame;
+
+    public static GameController instance; 
 
     public enum  GameState{
         MAIN,
@@ -26,30 +37,92 @@ public class GameController : MonoBehaviour
     GameState currentGameState;
     int currentLoopNum;
 
+    private void Awake(){
+        if(instance == null){
+            instance = this;
+        }
+        else{
+            Destroy(this);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         currentLoopNum = 0;
+        ScoreManager.instance.score = 0;
         InitializePrize();
+
+        MainCanvas = Canvas.transform.Find("Main").gameObject;
+        ResultCanvas = Canvas.transform.Find("Result").gameObject;
+        
+        MainCanvas.SetActive(true);
+        ResultCanvas.SetActive(false);
+
+        for (int i=0; i < GameInfo.PRIZENUM; i++){
+                Prizes[i].SetActive(true);
+        }
+
+        Observable.Interval(TimeSpan.FromSeconds(0.4f)).Subscribe(_ =>
+        {
+            if(currentGameState == GameState.GAMEOVER){
+                Vector3 scale = Rcranegame.transform.localScale;
+                scale.x *= -1;
+                Rcranegame.transform.localScale = scale;  
+            }
+        });
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(currentGameState == GameState.FALL){
+
+        if(currentGameState == GameState.MAIN ){
+               GameTimeCounter();
+        }
+        else if(currentGameState == GameState.FALL){
         
             if(Player.GetNormalState()){
+                
+                currentLoopNum += 1;
 
                 if(currentLoopNum == GameInfo.LOOPNUM){
                     ChangecurrentGameState(GameState.GAMEOVER);
+                    player.SetActive(false);
+                    MainCanvas.SetActive(false);
+                    ResultCanvas.SetActive(true);
+                    scoreText.text = ScoreManager.instance.score + "てん";
+
+                    for (int i=0; i < GameInfo.PRIZENUM; i++){
+                        Prizes[i].SetActive(false);
+                    }
+
                 }
                 else{
                     ChangecurrentGameState(GameState.MAIN);
                 }
-                currentLoopNum += 1;
                 FallButtonFlg = 0;
+                GameTimes = GameInfo.TIME;
             }
         }
+
+        else if(currentGameState == GameState.GAMEOVER){
+
+        }
+    }
+
+    void GameTimeCounter(){
+
+        GameTimes = TimeCounter(GameTimes);
+        GameTimerText.text = ((int)GameTimes).ToString();
+
+        if((int)GameTimes <= 0) FallAction();
+    }
+
+    float TimeCounter(float time){
+
+        time -= Time.deltaTime;
+        return time;
     }
 
     public void RButtonTouch(){
@@ -80,6 +153,10 @@ public class GameController : MonoBehaviour
     }
 
     public void FButtonTouch(){
+        FallAction();
+    }
+
+    void FallAction(){
 
         if(currentGameState == GameState.MAIN){
             if(FallButtonFlg == 0){
@@ -87,19 +164,6 @@ public class GameController : MonoBehaviour
                 AMButton.ChangeButtonState();
                 AMButton.TouchChangeButtonSprite("F");
                 ChangecurrentGameState(GameState.FALL);
-                /*
-                while(true){
-                    if(player.GetNormalState()){
-                        FallButtonFlg = 0;
-                        if(currentLoopNum == GameInfo.LOOPNUM){
-                            ChangecurrentGameState(GameState.GAMEOVER);
-                        }
-                        currentLoopNum += 1;
-                        break;
-                    }
-
-                }
-                */
             }
             FallButtonFlg += 1;
         }
@@ -124,8 +188,6 @@ public class GameController : MonoBehaviour
 
     public void JudgePrize(){
 
-        Debug.Log("wa-i");
-
         for (int i = 0; i < GameInfo.PRIZENUM; i++){
 
             float hPosition = Prizes[i].transform.position.y;
@@ -134,13 +196,9 @@ public class GameController : MonoBehaviour
             if( GetPositionY < hPosition ){
 
                 Prizes[i].SetActive(false);
-                JudgePoint(Prizes[i].GetComponent<prize>().GetPrizeType());
+                int PrizeScore = Prizes[i].GetComponent<prize>().GetPrizeScore();
+                ScoreManager.instance.score += PrizeScore + (int)(GameTimes);  
             }
         }
-    }
-
-    public void JudgePoint(PrizeInfo.Type color){
-
-        return;
     }
 }
