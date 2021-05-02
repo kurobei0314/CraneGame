@@ -17,6 +17,10 @@ public class GameController : MonoBehaviour
     int FallButtonFlg = 0;
     public GameObject prizePosition;
     public GameObject prizeGetPosition;
+    [SerializeField] private Text GameTimerText;
+    private float GameTimes = GameInfo.TIME;
+
+    public static GameController instance; 
 
     public enum  GameState{
         MAIN,
@@ -25,6 +29,15 @@ public class GameController : MonoBehaviour
     }
     GameState currentGameState;
     int currentLoopNum;
+
+    private void Awake(){
+        if(instance == null){
+            instance = this;
+        }
+        else{
+            Destroy(this);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +49,12 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currentGameState == GameState.FALL){
+
+        if(currentGameState == GameState.MAIN ){
+               GameTimeCounter();
+        }
+
+        else if(currentGameState == GameState.FALL){
         
             if(Player.GetNormalState()){
 
@@ -50,6 +68,18 @@ public class GameController : MonoBehaviour
                 FallButtonFlg = 0;
             }
         }
+    }
+
+    void GameTimeCounter(){
+
+        GameTimes = TimeCounter(GameTimes);
+        GameTimerText.text = ((int)GameTimes).ToString();
+    }
+
+    float TimeCounter(float time){
+
+        time -= Time.deltaTime;
+        return time;
     }
 
     public void RButtonTouch(){
@@ -123,8 +153,6 @@ public class GameController : MonoBehaviour
     }
 
     public void JudgePrize(){
-
-        Debug.Log("wa-i");
 
         for (int i = 0; i < GameInfo.PRIZENUM; i++){
 

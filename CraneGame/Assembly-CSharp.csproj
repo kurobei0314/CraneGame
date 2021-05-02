@@ -36,12 +36,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\player.cs" />
-     <Compile Include="Assets\Scripts\GameController.cs" />
-     <Compile Include="Assets\Scripts\ScoreController.cs" />
-     <Compile Include="Assets\Scripts\Constant.cs" />
-     <Compile Include="Assets\Scripts\prize.cs" />
      <Compile Include="Assets\Scripts\Button.cs" />
+     <Compile Include="Assets\Scripts\prize.cs" />
+     <Compile Include="Assets\Scripts\player.cs" />
+     <Compile Include="Assets\Scripts\Constant.cs" />
+     <Compile Include="Assets\Scripts\ScoreController.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <None Include="Assets\Resource\font\Anton\OFL.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -263,6 +264,9 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.5f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+        <HintPath>C:/Users/maiku/unity/CraneGame/CraneGame/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.5f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -698,6 +702,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{109649fc-06c0-fa48-1f77-7178baa9c1b2}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="UniRx.csproj">
       <Project>{4095cb2f-deb0-fa91-f76f-efe774a9a00b}</Project>
       <Name>UniRx</Name>
