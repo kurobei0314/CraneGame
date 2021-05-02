@@ -18,6 +18,9 @@
 詰まったこと
 - 
 
+反省点
+- だんだんコードを書くのが適当になってきたこと
+
 
 参考URL
 - https://glassonion.hatenablog.com/entry/2016/10/27/235932

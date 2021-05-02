@@ -11,6 +11,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     public player Player;
+    public GameObject player;
     public Button AMButton;
     public GameObject Prize;
     public GameObject[] Prizes;
@@ -19,6 +20,10 @@ public class GameController : MonoBehaviour
     public GameObject prizeGetPosition;
     [SerializeField] private Text GameTimerText;
     private float GameTimes = GameInfo.TIME;
+
+    public GameObject Canvas;
+    GameObject MainCanvas,ResultCanvas;
+    public GameObject Rcranegame;
 
     public static GameController instance; 
 
@@ -45,6 +50,21 @@ public class GameController : MonoBehaviour
         currentLoopNum = 0;
         ScoreManager.instance.score = 0;
         InitializePrize();
+
+        MainCanvas = Canvas.transform.Find("Main").gameObject;
+        ResultCanvas = Canvas.transform.Find("Result").gameObject;
+        
+        MainCanvas.SetActive(true);
+        ResultCanvas.SetActive(false);
+
+        Observable.Interval(TimeSpan.FromSeconds(0.4f)).Subscribe(_ =>
+        {
+            if(currentGameState == GameState.GAMEOVER){
+                Vector3 scale = Rcranegame.transform.localScale;
+                scale.x *= -1;
+                Rcranegame.transform.localScale = scale;  
+            }
+        });
     }
 
     // Update is called once per frame
@@ -54,21 +74,33 @@ public class GameController : MonoBehaviour
         if(currentGameState == GameState.MAIN ){
                GameTimeCounter();
         }
-
         else if(currentGameState == GameState.FALL){
         
             if(Player.GetNormalState()){
+                
+                currentLoopNum += 1;
 
                 if(currentLoopNum == GameInfo.LOOPNUM){
                     ChangecurrentGameState(GameState.GAMEOVER);
+                    player.SetActive(false);
+                    MainCanvas.SetActive(false);
+                    ResultCanvas.SetActive(true);
+
+                    for (int i=0; i < GameInfo.PRIZENUM; i++){
+                        Prizes[i].SetActive(false);
+                    }
+
                 }
                 else{
                     ChangecurrentGameState(GameState.MAIN);
                 }
-                currentLoopNum += 1;
                 FallButtonFlg = 0;
                 GameTimes = GameInfo.TIME;
             }
+        }
+
+        else if(currentGameState == GameState.GAMEOVER){
+
         }
     }
 
