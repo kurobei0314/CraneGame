@@ -8,7 +8,7 @@ public static class GameInfo{
     public static readonly float TIME = 60.0f;
 
     // playerの動くスピード
-    public static readonly float MSPEED = 0.05f;
+    public static readonly float MSPEED = 0.1f;
 
     // playerの上下に動くスピード
     public static readonly float FSPEED = 0.05f;
@@ -16,7 +16,7 @@ public static class GameInfo{
     // playerの初期位置
     public static readonly Vector3 InitializePlayer = new Vector3 (-3.64f,4.41f,0.0f);
 
-    //　prizeの最初の数
+    // prizeの最初の数
     public static readonly int PRIZENUM = 10;
 
     // ループ回数

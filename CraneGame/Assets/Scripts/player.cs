@@ -12,8 +12,10 @@ public class player : MonoBehaviour
     int FallPlayerFlg=1; 
     int UseKindArm=1;
 
-    //　移動方向の設定
+    // 移動方向の設定
     int dir = 0;
+
+    Rigidbody2D rigidbody;
 
     public GameController GameControll;
 
@@ -22,14 +24,12 @@ public class player : MonoBehaviour
     {
         transform.position = GameInfo.InitializePlayer;
         currentPlayerState = PlayerState.Type.NORMAL; 
+        rigidbody = this.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(currentPlayerState);
-        //Debug.Log(FallPlayerFlg);
-
         if (currentPlayerState == PlayerState.Type.NORMAL){
             xMove(dir);
         }
@@ -60,9 +60,6 @@ public class player : MonoBehaviour
     IEnumerator yMoveAni(){
 
         ChangecurrentPlayerState(PlayerState.Type.ANIMATION);
-        //Debug.Log("in yMoveAni");
-        //Debug.Log(currentPlayerState);
-        //yield return new WaitForSeconds(5.0f);
 
         GameObject ArmG = transform.Find("arm").gameObject;
         GameObject Arm = ArmG.transform.GetChild(UseKindArm).gameObject;
@@ -140,16 +137,11 @@ public class player : MonoBehaviour
 
         // 移動するとき
         if(dir != 0){
-            Vector3 pos = transform.position;
-            pos.x += GameInfo.MSPEED * dir;
-            transform.position = pos;
+            rigidbody.MovePosition(transform.position + new Vector3(GameInfo.MSPEED * dir, 0.0f ,0.0f));
         }
     }
 
     void yMove(int dir){
-
-        Vector3 pos = transform.position;
-        pos.y -= GameInfo.FSPEED * dir;
-        transform.position = pos;
+        rigidbody.MovePosition(transform.position - new Vector3(0.0f, GameInfo.FSPEED * dir, 0.0f));
     }
 }
